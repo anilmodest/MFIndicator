@@ -8,20 +8,46 @@ var Schema = mongoose.Schema
 
 var fund = new Schema({
     id: {type: String, defaultValue: utils.createGuid()},
-    name: String,
-    category: {type: String, required: true},
-    desc: String,
-    nav: {type: Number, required: true},
-    historicalNav: [{
-        date:Date,
-        nav: Number
-    }],
+    AMC: String,
+    code: {type: String, required: true},
+    schemeName: {type: String, required: true, index: true},
+    type: {type: String, required: true},
+    category: {type: String},
+    navSchemeName: {type: String},
+    minAmount: {type: Number},
+    launchDate: {type: Date},
+    closureDate: {type: Date},
+    closureFlag: {type: String},
+    loadFactor:  {type: String},
+    isin: {type: String, index: true},
     createdOn: {type:Date, default:new Date().getDate()}
-})
+});
 
-fund.query.byName = function(name) {
+fund.index({code:1, type:1, category:1}, {unique: true})
+
+fund.query.byName = function(schemeName) {
     "use strict";
-    return this.find({name : new RegExp(name, 'i')})
+    return this.find({schemeName : new RegExp(schemeName, 'i')})
+};
+
+fund.query.byCode = function(code) {
+    "use strict";
+    return this.find({code : new RegExp(code, 'i')})
+};
+
+fund.query.byIsin= function(isin) {
+    "use strict";
+    return this.find({isin : new RegExp(isin, 'i')})
+};
+
+fund.query.byType = function(type) {
+    "use strict";
+    return this.find({type : new RegExp(type, 'i')})
+};
+
+fund.query.getAllFunds = function() {
+    "use strict";
+    return this.find();
 }
 
 var Fund = mongoose.model('Fund', fund)

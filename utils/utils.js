@@ -1,6 +1,10 @@
 /**
  * Created by modestanil on 11/1/17.
  */
+const MIN_VALUE = new Date(-8640000000000000);
+const MAX_VALUE = new Date(8640000000000000);
+
+
 module.exports = {
     createGuid: function ()
     {
@@ -8,5 +12,26 @@ module.exports = {
             var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
+    },
+
+    getDate: function(stringDate) {
+        "use strict";
+        if(stringDate === undefined || stringDate === '' || stringDate === null || stringDate.length === 0)
+            return MIN_VALUE
+        return new Date(stringDate)
+    },
+
+    getNumber : function(strNumber) {
+        "use strict";
+        if(strNumber === undefined || strNumber === null || strNumber === '' || strNumber.length === 0 || strNumber === NaN)
+            return 0
+        return parseInt(strNumber) || 0
+    },
+
+    getFloat : function(strNumber) {
+        "use strict";
+        if(strNumber === undefined || strNumber === null || strNumber === '' || strNumber.length === 0 || strNumber === NaN)
+            return 0
+        return parseFloat(strNumber) || 0
     }
 }
