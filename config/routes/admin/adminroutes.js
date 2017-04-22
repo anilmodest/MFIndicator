@@ -36,6 +36,24 @@ module.exports = function(app, mongoose) {
 
     })
 
+    app.get('/admin/nav/updatemonthends', function(req, res){
+        "use strict";
+        var startYear = req.query.fromYear;
+        var endYear = req.query.toYear;
+
+        var currentDate = startDate;
+        while(!dateExtn.areSameDate(currentDate, dt))
+        {
+            var date = util.getFormattedDate(currentDate.getDate(), dateExtn.getMonthNameShort(currentDate.getMonth()), currentDate.getFullYear());
+            //var date = '{0}-{1}-{2}'.format(currentDate.getDate(), currentDate.getMonthNameShort('en'), currentDate.getFullYear());
+            navInfoParser.updateNav(date, date, res);
+            currentDate.setDate(currentDate.getDate() +1);
+        }
+
+        return res.json('NAV upload trigered for date range');
+
+    })
+
 
 
 }

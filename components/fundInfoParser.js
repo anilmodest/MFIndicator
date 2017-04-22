@@ -21,22 +21,7 @@ module.exports =  {
                     return
                 rowNum++;
                 csvData.push(csvrow);
-                var dateEx = new DateEx();
                 var scheme = new Scheme({
-                    /*id: {type: String, defaultValue: utils.createGuid()},
-                     AMC: String,
-                     code: {type: String, required: true},
-                     schemeName: {type: String, required: true},
-                     type: {type: String, required: true},
-                     category: {type: String},
-                     navSchemeName: {type: String},
-                     minAmount: {type: Number},
-                     launchDate: {type: Date},
-                     closureDate: {type: Date},
-                     closureFlag: {type: String},
-                     loadFactor:  {type: Number},
-                     isin: {type: String},
-                     createdOn: {type:Date, default:new Date().getDate()}*/
                     AMC: csvrow[0],
                     code: csvrow[1],
                     schemeName: csvrow[2],
@@ -49,7 +34,6 @@ module.exports =  {
                     closureFlag: csvrow[9],
                     loadFactor: csvrow[10],
                     isin: csvrow[11]
-
                 })
 
                 scheme.save(function(err) {

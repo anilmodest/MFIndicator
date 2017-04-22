@@ -15,12 +15,12 @@ var navSchema = new Schema({
     code: {type: String, required: true, index: true},
     isin: {type: String, index: true},
     isinreinvest: {type: String},
-    schemeName: {type: String},
+    schemeName: {type: String, index : true},
     nav: {type: SchemaTypes.Double, required: true},
     repurchasePrice: {type: SchemaTypes.Double, required: true},
     salePrice: {type: SchemaTypes.Double, required: true},
-    date:Date,
-    category:{type: String},
+    date: {type: Date, index: true},
+    category:{type: String, index: true},
     createdOn: {type:Date, default:new Date().getDate()}
 });
 

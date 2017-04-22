@@ -4,6 +4,7 @@
 
 var http = require('http')
 var NavSchema = require('../models/NavSchema')
+var NavLookup = require('../models/navlookupSchema')
 var util = require('../utils/utils')
 var dateExtn = require('../utils/dateextension')
 
@@ -46,26 +47,15 @@ module.exports = {
                     //code here using lines[i] which will give you each line
                     console.log('parsing values: ' + values)
                     var navSchema = new NavSchema({
-                        /*
-                         code: {type: String, required: true, index: true},
-                         isin: {type: String, index: true},
-                         isinreinvest: {type: String},
-                         schemeName: {type: String},
-                         nav: {type: Number, required: true},
-                         repurchasePrice: {type: Number, required: true},
-                         salePrice: {type: Number, required: true},
-                         date:Date,
-                         category:{type: String},
-                         createdOn: {type:Date, default:new Date().getDate()}*/
-
                         code: values[0],
                         schemeName: values[1],
                         nav: util.getFloat(values[2]),
                         repurchasePrice: util.getFloat(values[3]),
                         salePrice: util.getFloat(values[4]),
                         date: dateExtn.formatDate(values[5])
-
                     })
+
+                    //NavLookup
 
                     navSchema.save(function(err) {
                         "use strict";
@@ -76,6 +66,17 @@ module.exports = {
                         console.log('nav saved')
                     })
                 }
+
+                var navLookup = new NavLookup({
+                    navDate: dateExtn.formatDate(values[5])
+                })
+
+                navLookup.save(function(err) {
+                    if(err) {
+                        console.log('error saving nav lookup table' + err.message)
+                    }
+                    console.log('nav lookup updated')
+                })
             });
 
             response.on('error', function (err) {
@@ -83,6 +84,12 @@ module.exports = {
             });
 
 
+        }
+
+        var isNavPresent = NavLookup.find().byDate(dateExtn.formatDate(values[5])).length > 0;
+        if(isNavPresent) {
+            console.log('Nav already updated for date. Skipping upload')
+            return
         }
         http.request(options, callback).end();
         return

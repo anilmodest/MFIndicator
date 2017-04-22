@@ -53,6 +53,10 @@ module.exports = {
         "use strict";
         var date = '{0}-{1}-{2}'.format(day, mon, year)
         return date
+    },
+
+    LastDayOfMonth : function (Year, Month) {
+        return new Date( (new Date(Year, Month,1))-1 )
     }
 
 

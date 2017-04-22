@@ -12,7 +12,7 @@ var fund = new Schema({
     code: {type: String, required: true},
     schemeName: {type: String, required: true, index: true},
     type: {type: String, required: true},
-    category: {type: String},
+    category: {type: String, index: true},
     navSchemeName: {type: String},
     minAmount: {type: Number},
     launchDate: {type: Date},
