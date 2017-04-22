@@ -25,9 +25,14 @@ var fund = new Schema({
 
 fund.index({code:1, type:1, category:1}, {unique: true})
 
-fund.query.byName = function(schemeName) {
+fund.query.byName = function(name) {
     "use strict";
-    return this.find({schemeName : new RegExp(schemeName, 'i')})
+    return this.find({schemeName: new RegExp(name, 'i')})
+};
+
+fund.query.byNameAndCode = function(name, type) {
+    "use strict";
+    return this.find({$and: [{schemeName: new RegExp(name, 'i')}, {type: new RegExp(type, 'i')}]})
 };
 
 fund.query.byCode = function(code) {
@@ -43,6 +48,11 @@ fund.query.byIsin= function(isin) {
 fund.query.byType = function(type) {
     "use strict";
     return this.find({type : new RegExp(type, 'i')})
+};
+
+fund.query.byNavName = function(name) {
+    "use strict";
+    return this.find({navSchemeName : new RegExp('^'+name+'$', 'i')})
 };
 
 fund.query.getAllFunds = function() {

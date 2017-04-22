@@ -5,6 +5,7 @@ var fs = require('fs');
 var parse = require('csv-parse');
 var Scheme = require('../models/fundSchema')
 var util = require('../utils/utils')
+var dateExtn = require('../utils/dateextension')
 
 var csvData=[];
 var headers=[];
@@ -20,6 +21,7 @@ module.exports =  {
                     return
                 rowNum++;
                 csvData.push(csvrow);
+                var dateEx = new DateEx();
                 var scheme = new Scheme({
                     /*id: {type: String, defaultValue: utils.createGuid()},
                      AMC: String,
@@ -42,15 +44,15 @@ module.exports =  {
                     category: csvrow[4],
                     navSchemeName: csvrow[5],
                     minAmount: util.getNumber(csvrow[6]),
-                    launchDate: util.getDate(csvrow[7]),
-                    closureDate: util.getDate(csvrow[8]),
+                    launchDate: dateExtn.formatDate(csvrow[7]),
+                    closureDate: dateExtn.formatDate(csvrow[8]),
                     closureFlag: csvrow[9],
                     loadFactor: csvrow[10],
                     isin: csvrow[11]
 
                 })
 
-                scheme.save(function(err, data) {
+                scheme.save(function(err) {
                     "use strict";
                     if(err) {
                         console.log('error saving the row: ' + err.message)

@@ -24,14 +24,24 @@ var navSchema = new Schema({
     createdOn: {type:Date, default:new Date().getDate()}
 });
 
+navSchema.query.byCode = function(code, inputDate) {
+    "use strict";
+    return this.find({date : {"$lte": inputDate, "$gte" : inputDate}}).find({code : new RegExp(code, 'i')})
+}
+
 navSchema.query.byCode = function(code) {
     "use strict";
     return this.find({code : new RegExp(code, 'i')})
 }
 
-navSchema.query.getAllFundNavs = function() {
+navSchema.query.getAllFundNavs = function(inputDate) {
     "use strict";
-    return this.find()
+    return this.find({date : {"$lte": inputDate, "$gte" : inputDate}})
+}
+
+navSchema.query.getNavByDate = function(isin, inputDate) {
+    "use strict";
+    return this.find({date : {"$lte": inputDate, "$gte" : inputDate}}).find({code : new RegExp(code, 'i')})
 }
 
 var NavSchema = mongoose.model('NavSchema', navSchema)

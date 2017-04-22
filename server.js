@@ -24,7 +24,10 @@ module.exports = {
 }
 
 require('./config/express')(app)
-require('./config/routes')(app, mongoose)
+require('./config/routes/routes')(app, mongoose)
+require('./config/routes/admin/adminroutes')(app, mongoose)
+require('./config/routes/query/queryroutes')(app, mongoose)
+require('./config/routes/triggers/triggerroutes')(app, mongoose)
 
 
 // Bootstrap models

@@ -5,7 +5,7 @@
 var http = require('http')
 var NavSchema = require('../models/NavSchema')
 var util = require('../utils/utils')
-
+var dateExtn = require('../utils/dateextension')
 
 //http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?frmdt=18-Apr-2017&todt=18-Apr-2017
 module.exports = {
@@ -63,7 +63,7 @@ module.exports = {
                         nav: util.getFloat(values[2]),
                         repurchasePrice: util.getFloat(values[3]),
                         salePrice: util.getFloat(values[4]),
-                        date: util.getDate(values[5])
+                        date: dateExtn.formatDate(values[5])
 
                     })
 
@@ -85,7 +85,7 @@ module.exports = {
 
         }
         http.request(options, callback).end();
-        return res.json('method fired')
+        return
     }
 
 
